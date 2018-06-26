@@ -9,9 +9,9 @@
   - [2 Suggestion: To build full Asch node in LAN](#2-suggestion-to-build-full-asch-node-in-lan)
   - [3 Recharege XCT](#3-recharege-xct)
     - [3.1 Option 1 - Generate a Recharge Address for Each User](#31-option-1---generate-a-recharge-address-for-each-user)
-      - [3.1.1 为用户生成充值地址](#311-为用户生成充值地址)
-        - [3.1.1.1 调用http接口生成地址](#3111-调用http接口生成地址)
-        - [3.1.1.2 用asch-cli命令行工具批量生成地址](#3112-用asch-cli命令行工具批量生成地址)
+      - [3.1.1 Generate Recharge Address for User](#311-generate-recharge-address-for-user)
+        - [3.1.1.1 Call the http interface to generate the address](#3111-call-the-http-interface-to-generate-the-address)
+        - [3.1.1.2 Generating addresses in batch using the asch-cli command line tool](#3112-generating-addresses-in-batch-using-the-asch-cli-command-line-tool)
         - [3.1.1.3 nodejs代码生成地址](#3113-nodejs代码生成地址)
       - [3.1.2 用户进行充值](#312-用户进行充值)
       - [3.1.3 交易平台确认用户充值](#313-交易平台确认用户充值)
@@ -84,40 +84,49 @@ Asch1.3 started to support transfer remarks, so the trading platform can have tw
 At present, trading platforms such as bit-z.com, chaoex.com, coinegg.com, coolcoin.com, and other early online XAS's adopt this approach.  
     
     
-#### 3.1.1 为用户生成充值地址    
-用户UserA登陆交易平台，进入XCT充值页面，平台通过调用下面的代码生成充值地址，并将地址、密码（需要加密存储）写入数据库或者其它持久化存储中，并在页面上展示给用户。    
+#### 3.1.1 Generate Recharge Address for User    
+The user UserA logs in to the trading platform and enters the XCT recharge page. The platform generates the recharge address by calling the following code, and writes the address and password (requires encrypted storage) in the database or other persistent storage, and displays it on the page to the user.    
     
-通过下面几种生成地址方法中的任意一种为UserA生成一个Asch充值账户。    
-地址：ANH2RUADqXs6HPbPEZXv4qM8DZfoj4Ry3M    
-密码：'found knife gather faith wrestle private various fame cover response security predict'，这里只是举例，数据非真实。    
+Generate an Asch recharge account for UserA using any of the following methods for generating an address.  
+__Address:__ ANH2RUADqXs6HPbPEZXv4qM8DZfoj4Ry3M  
+__Password:__ 'found knife gather faith wrestle private various fame cover response security predict'.  
+Here is an example. The data is not true.
     
-##### 3.1.1.1 调用http接口生成地址    
-    
-```    
+##### 3.1.1.1 Call the http interface to generate the address    
+
+```bash
 curl -k -X GET 'http://192.168.1.100:4096/api/accounts/new'       
     
-// JSON返回示例：    
-{        
+# JSON return example:
+{
     success: true,    
-    secret: "during crush zoo wealth horror left night upset spike iron divert lawn", // 主密码       
-    publicKey: "261fa56f389c324fddbe8777dbc0ef3341ee7b75d1ffdc82192265633b90d503", // 公钥        
-    privateKey: "67c9523b7622704c4bcfe960cb32d7fa04d3eb94e30e7964d3c6a24a3647a0a3261fa56f389c324fddbe8777dbc0ef3341ee7b75d1ffdc82192265633b90d503", // 私钥        
-    address: "ANfXDQUZroMnrQ6vRGR7UXXtbPn3fhEVRJ" // 地址        
-}        
-```    
+    secret: "during crush zoo wealth horror left night upset spike iron divert lawn", // Master password       
+    publicKey: "261fa56f389c324fddbe8777dbc0ef3341ee7b75d1ffdc82192265633b90d503", // Public Key        
+    privateKey: "67c9523b7622704c4bcfe960cb32d7fa04d3eb94e30e7964d3c6a24a3647a0a3261fa56f389c324fddbe8777dbc0ef3341ee7b75d1ffdc82192265633b90d503", // Private Key        
+    address: "ANfXDQUZroMnrQ6vRGR7UXXtbPn3fhEVRJ" // Address        
+}
+```
     
-##### 3.1.1.2 用asch-cli命令行工具批量生成地址    
+##### 3.1.1.2 Generating addresses in batch using the asch-cli command line tool      
     
-```    
-// 用asch-cli命令行工具批量生成钱包地址（含密码、地址、公钥），生成多个地址，加密存到数据库或者其它地方，然后程序直接用.    
-// 安装asch-cli工具    
+```bash
+# Use the asch-cli command line tool to generate wallet address (including password, address, public key) in batches, generate multiple addresses, encrypt and store it in the database or other place, and then program directly.
+
+# Installing asch-cli tool    
 npm install -g asch-cli      
-// 批量生成钱包地址    
+
+// Bulk generate wallet addresses
 asch-cli crypto -g    
-? Enter number of accounts to generate 1 //这里的1表示生成一个地址，可以填写10、100等数字    
-[ { address: 'AAW3Bh86U8RdHryp86KN19ScSVLpr2x6J4',    
-	secret: 'actress south egg hen neutral salute section sign truck produce agent daughter',    
-	publicKey: 'fd86a5bb9e06bd3a0555e27402f90b565300b0a7a6fb42ee4269aae0cfca60c6' } ]    
+? Enter number of accounts to generate 1 # here 1 menas to generate one address, you can also generate more then one if you like  
+
+# output
+[ 
+  { 
+    address: 'AAW3Bh86U8RdHryp86KN19ScSVLpr2x6J4',    
+    secret: 'actress south egg hen neutral salute section sign truck produce agent daughter',    
+    publicKey: 'fd86a5bb9e06bd3a0555e27402f90b565300b0a7a6fb42ee4269aae0cfca60c6'
+  }
+]    
 Done    
 ```    
     
