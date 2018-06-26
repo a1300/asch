@@ -22,11 +22,9 @@ XCT operations can be performed through the Asch API.
 Asch http interface document - English version:
 https://github.com/AschPlatform/asch/blob/master/docs/asch_http_interface_en.md  
     
-对XCT的操作可以通过Asch API来进行。    
-Asch http接口文档-中文版：
-Asch http接口文档-英文版：https://github.com/AschPlatform/asch/blob/master/docs/asch_http_interfaceen.md    
-该文档包含大部分的Asch接口，比如查询余额、转账、交易详情等，调用api返回结果为json数据。    
-    
+
+This document contains most of the Asch interfaces, such as querying balances, transfers, transaction details, etc... The API returns returns JSON data.  
+
     
 ## 2 建议交易平台在局域网内搭建一个Asch全节点    
 需要用Linux服务器（建议用ubuntu 16.04），这样交易平台处理充值、提现性能要好很多并且安全，不需要有公网ip但需要能访问公网。    
