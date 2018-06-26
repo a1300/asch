@@ -26,9 +26,9 @@ https://github.com/AschPlatform/asch/blob/master/docs/asch_http_interface_en.md
 This document contains most of the Asch interfaces, such as querying balances, transfers, transaction details, etc... The API returns returns JSON data.  
 
     
-## 2 建议交易平台在局域网内搭建一个Asch全节点    
-需要用Linux服务器（建议用ubuntu 16.04），这样交易平台处理充值、提现性能要好很多并且安全，不需要有公网ip但需要能访问公网。    
-下面是节点搭建命令    
+## 2 Suggestion: To build full Asch node in LAN    
+Need to use Linux server (recommended to use ubuntu 16.04), so that trading platform to deal with recharge, withdrawal performance is much better and safe, do not need to have public network ip but need to be able to access the public network.
+The following is the node build command
 
 ```    
 > sudo apt-get update && sudo apt-get install curl wget sqlite3 ntp -y

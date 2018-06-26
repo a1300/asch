@@ -19,7 +19,7 @@
     
 对XCT的操作可以通过Asch API来进行。    
 Asch http接口文档-中文版：https://github.com/AschPlatform/asch/blob/master/docs/asch_http_interface.md    
-Asch http接口文档-英文版：https://github.com/AschPlatform/asch/blob/master/docs/asch_http_interfaceen.md    
+Asch http接口文档-英文版：https://github.com/AschPlatform/asch/blob/master/docs/asch_http_interface_en.md    
 该文档包含大部分的Asch接口，比如查询余额、转账、交易详情等，调用api返回结果为json数据。    
     
     
