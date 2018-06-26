@@ -7,21 +7,23 @@ This document applies also to the integration of other assets, other assets then
 
     
 ## 1 CCTime.XCT基本信息    
-__Chinese name:__ Timecoin
-__English ID:__ CCTime.XCT (Frontend namd for asset can be XCT, but the asset must be saved in the backend as `CCTime.XCT`)
+__Chinese name:__ Timecoin  
+__English ID:__ CCTime.XCT (Frontend namd for asset can be XCT, but the asset must be saved in the backend as `CCTime.XCT`)  
 __Total nuber:__ The maximum total issued tokens are 10 billion (at preset, 1 billion has been airdropped). The asset has an accuracy of 8.
-__Official website:__ http://cctime.org    
-__Online wallet:__ http://asch.cn (basic functionality, can be used for most account managment tasks)
+__Official website:__ http://cctime.org  
+__Online wallet:__ http://asch.cn (basic functionality, can be used for most account managment tasks)  
 
+__Special statement:__ XCT is an asset issued by Asch (UIA), so XCT and Asch can share the same address. Whether the address should be shared can be determined by the trading platform.  
+__Release Notes:__ The XCT asset will be distributed to XAS, BTC, ETH and BTC holders through an airdrop  
 
-在线钱包：http://asch.cn ,基本功能可以在这里进行体验。    
-特别声明：XCT是在Asch发行的资产（UIA），所以可以跟xas共用一个地址，具体是否共用，由交易平台自行决定。    
-发行说明：采用空投的方式将XCT分给XAS、BTC、ETH、BTS持有者。    
-    
-备注：由于XCT是在Asch上面发行的资产，所以XCT的在Asch主链上的转账需要支付XAS做为手续费，目前每笔XCT转账都需要固定的0.1XAS手续费。（类比以太坊的ERC20资产转账需要消耗ETH）    
+__Note:__ Since XCT is an asset issued on Asch, XCT's transfer on Asch's main chain requires XAS as a handling fee. At present, each XCT transfer requires a fixed 0.1 XAS fee. (Equivalent Ethereum's ERC20 asset transfer needs to consume ETH)  
+
+XCT operations can be performed through the Asch API.  
+Asch http interface document - English version:
+https://github.com/AschPlatform/asch/blob/master/docs/asch_http_interface_en.md  
     
 对XCT的操作可以通过Asch API来进行。    
-Asch http接口文档-中文版：https://github.com/AschPlatform/asch/blob/master/docs/asch_http_interface.md    
+Asch http接口文档-中文版：
 Asch http接口文档-英文版：https://github.com/AschPlatform/asch/blob/master/docs/asch_http_interfaceen.md    
 该文档包含大部分的Asch接口，比如查询余额、转账、交易详情等，调用api返回结果为json数据。    
     
