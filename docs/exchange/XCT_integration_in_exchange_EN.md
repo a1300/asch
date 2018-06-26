@@ -1,8 +1,33 @@
 # CCTime.XCT integration for Trading Platforms    
+
+---
+
+<!-- TOC -->
+
+- [CCTime.XCT integration for Trading Platforms](#cctimexct-integration-for-trading-platforms)
+  - [1 CCTime.XCT基本信息](#1-cctimexct基本信息)
+  - [2 Suggestion: To build full Asch node in LAN](#2-suggestion-to-build-full-asch-node-in-lan)
+  - [3 Recharege XCT](#3-recharege-xct)
+    - [3.1 Option 1 - Generate a Recharge Address for Each User](#31-option-1---generate-a-recharge-address-for-each-user)
+      - [3.1.1 为用户生成充值地址](#311-为用户生成充值地址)
+        - [3.1.1.1 调用http接口生成地址](#3111-调用http接口生成地址)
+        - [3.1.1.2 用asch-cli命令行工具批量生成地址](#3112-用asch-cli命令行工具批量生成地址)
+        - [3.1.1.3 nodejs代码生成地址](#3113-nodejs代码生成地址)
+      - [3.1.2 用户进行充值](#312-用户进行充值)
+      - [3.1.3 交易平台确认用户充值](#313-交易平台确认用户充值)
+      - [3.1.4 交易平台将用户充值的XCT转到一个总账户中](#314-交易平台将用户充值的xct转到一个总账户中)
+        - [3.1.4.1 通过不安全的api进行XCT转账](#3141-通过不安全的api进行xct转账)
+        - [3.1.4.2 通过安全的api进行XCT转账（本地签名）](#3142-通过安全的api进行xct转账本地签名)
+    - [3.2 方案2-转账备注方式](#32-方案2-转账备注方式)
+  - [4 提币XCT](#4-提币xct)
+    - [4.1 用户绑定提币地址](#41-用户绑定提币地址)
+    - [4.2 用户进行提币](#42-用户进行提币)
+    - [4.2 平台执行提币操作](#42-平台执行提币操作)
+    - [4.3 用户确认](#43-用户确认)
+
+<!-- /TOC -->
+
     
----    
-    
-写在前面的话，本文档同样适用于在Asch平台发行的其它资产与交易平台的对接，其它资产请将下面的CCTime.XCT 换成你的资产名即可。    
 This document applies also to the integration of other assets, other assets then CCTime.XCT on trading platforms. For the other assets replace the following `CCTime.XCT` with your asset name.
 
     
@@ -30,28 +55,33 @@ This document contains most of the Asch interfaces, such as querying balances, t
 Need to use Linux server (recommended to use ubuntu 16.04), so that trading platform to deal with recharge, withdrawal performance is much better and safe, do not need to have public network ip but need to be able to access the public network.
 The following is the node build command
 
-```    
-> sudo apt-get update && sudo apt-get install curl wget sqlite3 ntp -y
-> wget http://www.asch.io/downloads/asch-linux-latest-mainnet.tar.gz
-> tar zxvf asch-linux-latest-mainnet.tar.gz
-> # cd 解压后的目录名字,一般是 “asch-linux-版本号-mainnet”
-> chmod u+x init/*.sh && sudo ./aschd configure
-> # 下面这个curl命令是加载快照，加速第一次区块链同步的速度
-> curl -sL http://www.asch.io/downloads/rebuild-mainnet3.sh | bash
-> tail logs/debug.log  # 查看节点同步日志，等待同步到最新的区块即可。最新高度可以在区块链浏览器中看到 https://explorer.asch.io/
-```    
-举例：这里搭建完成后局域网ip是：192.168.1.100    
+```bash
+sudo apt-get update && sudo apt-get install curl wget sqlite3 ntp -y
+wget http://www.asch.io/downloads/asch-linux-latest-mainnet.tar.gz
+tar zxvf asch-linux-latest-mainnet.tar.gz
+
+# cd The uncompressed directory name is usually "asch-linux-version number-mainnet"
+chmod u+x init/*.sh && sudo ./aschd configure
+
+# The following curl command is to load a snapshot to speed up the first blockchain synchronization
+curl -sL http://www.asch.io/downloads/rebuild-mainnet3.sh | bash
+tail logs/debug.log  # Check the node synchronization log and wait for synchronization to the latest block. The latest height can be seen in the blockchain browser https://explorer.asch.io/
+```
+
+
+Example: After the completion of the establishment of the LAN ip is: 192.168.1.100
     
-备注：交易平台开发对接阶段可以用我们提供的测试服务器http://101.200.84.232:4097 ，测试账户密码'found knife gather faith wrestle private various fame cover response security predict'    
+Note: The trading platform development docking phase can use our test server http://101.200.84.232:4097, test account password 'found knife gather faith wrestle private various fame cover response security predict'
     
-## 3 充值XCT    
-Asch1.3版本开始支持转账备注，因此交易平台可以有两种充值方案。    
+## 3 Recharege XCT    
+Asch1.3 started to support transfer remarks, so the trading platform can have two recharging options.    
     
-- `为每个用户生成一个充值地址`     
-- `为所有用户生成同一个充值地址，根据转账备注判断具体是哪个用户进行了充值`    
+- `Generate a recharge address for each user`  
+- `Generate the same recharge address for all users, and determine which user has recharged according to the transfer remark`    
     
-### 3.1 方案1-为每个用户生成一个充值地址    
-目前bit-z.com、chaoex.com、coinegg.com、coolcoin.com等早期上线XAS的交易平台都是采用这种方式。    
+### 3.1 Option 1 - Generate a Recharge Address for Each User  
+
+At present, trading platforms such as bit-z.com, chaoex.com, coinegg.com, coolcoin.com, and other early online XAS's adopt this approach.  
     
     
 #### 3.1.1 为用户生成充值地址    
