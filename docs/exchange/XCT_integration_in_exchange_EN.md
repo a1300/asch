@@ -1,16 +1,19 @@
-# CCTime.XCT与交易平台对接文档    
-    
- 
+# CCTime.XCT integration for Trading Platforms    
     
 ---    
     
 写在前面的话，本文档同样适用于在Asch平台发行的其它资产与交易平台的对接，其它资产请将下面的CCTime.XCT 换成你的资产名即可。    
+This document applies also to the integration of other assets, other assets then CCTime.XCT on trading platforms. For the other assets replace the following `CCTime.XCT` with your asset name.
+
     
 ## 1 CCTime.XCT基本信息    
-中文名称：时讯币    
-英文标识：CCTime.XCT（前台页面可以展示为XCT，但后端调用接口处理时则必须是CCTime.XCT）    
-发行总量：最大发行总量100亿（目前已空投10亿，精度为8位）    
-官网：http://cctime.org    
+__Chinese name:__ Timecoin
+__English ID:__ CCTime.XCT (Frontend namd for asset can be XCT, but the asset must be saved in the backend as `CCTime.XCT`)
+__Total nuber:__ The maximum total issued tokens are 10 billion (at preset, 1 billion has been airdropped). The asset has an accuracy of 8.
+__Official website:__ http://cctime.org    
+__Online wallet:__ http://asch.cn (basic functionality, can be used for most account managment tasks)
+
+
 在线钱包：http://asch.cn ,基本功能可以在这里进行体验。    
 特别声明：XCT是在Asch发行的资产（UIA），所以可以跟xas共用一个地址，具体是否共用，由交易平台自行决定。    
 发行说明：采用空投的方式将XCT分给XAS、BTC、ETH、BTS持有者。    
