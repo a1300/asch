@@ -12,7 +12,7 @@
       - [3.1.1 Generate Recharge Address for User](#311-generate-recharge-address-for-user)
         - [3.1.1.1 Call the http interface to generate the address](#3111-call-the-http-interface-to-generate-the-address)
         - [3.1.1.2 Generating addresses in batch using the asch-cli command line tool](#3112-generating-addresses-in-batch-using-the-asch-cli-command-line-tool)
-        - [3.1.1.3 nodejs代码生成地址](#3113-nodejs代码生成地址)
+        - [3.1.1.3 Nodejs code generation address](#3113-nodejs-code-generation-address)
       - [3.1.2 用户进行充值](#312-用户进行充值)
       - [3.1.3 交易平台确认用户充值](#313-交易平台确认用户充值)
       - [3.1.4 交易平台将用户充值的XCT转到一个总账户中](#314-交易平台将用户充值的xct转到一个总账户中)
@@ -120,45 +120,46 @@ asch-cli crypto -g
 ? Enter number of accounts to generate 1 # here 1 menas to generate one address, you can also generate more then one if you like  
 
 # output
-[ 
-  { 
+[
+  {
     address: 'AAW3Bh86U8RdHryp86KN19ScSVLpr2x6J4',    
     secret: 'actress south egg hen neutral salute section sign truck produce agent daughter',    
     publicKey: 'fd86a5bb9e06bd3a0555e27402f90b565300b0a7a6fb42ee4269aae0cfca60c6'
   }
-]    
+]
 Done    
 ```    
     
-##### 3.1.1.3 nodejs代码生成地址    
+##### 3.1.1.3 Nodejs code generation address    
     
-```     
-// 以下为nodejs编程语言的demo（目前Asch SDK支持nodejs、java这2种语言，其它语言后续会支持，当前需开发者自行编码）    
+```bash
+# The following is the demo of nodejs programming language (at present, Asch SDK supports two languages: nodejs and java. Other languages will support the follow-up, currently developers need to code themselves)    
     
-// 建议用ubuntu 16.04，nodejs 8.x最新版    
-// 安装nodejs的版本管理工具nvm    
+# Recommended ubuntu 16.04, nodejs 8.x latest version    
+# Install the nodejs version management tool nvm    
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash    
-// 上面命令执行完成后再开一个os shell窗口执行下面的命令，安装nodejs 8.x    
-nvm install node 8    
+
+# After executing the above command, open an os shell window and execute the following command to install nodejs 8.x  
+nvm install node 8  
     
-// 安装依赖库（asch-js、bitcore-mnemonic），在os shell中运行    
+# Install dependent libraries (asch-js, bitcore-mnemonic), run in os shell    
 npm install asch-js bitcore-mnemonic    
-    
-// 以下在node中运行    
-var Mnemonic = require('bitcore-mnemonic');     
+```
+
+```js
+// Run the following in node  
+const Mnemonic = require('bitcore-mnemonic');     
 var secret = new Mnemonic(Mnemonic.Words.ENGLISH).toString();	// 生成密码    
-console.log(secret);	    // 打印密码，'latin december swing love square parade era fuel circle over hub spy'    
-Mnemonic.isValid(secret);   // 验证密码是否符合bip39规范    
+console.log(secret);	    // Print the password, 'latin december swing love square parade era fuel circle over hub spy'    
+Mnemonic.isValid(secret);   // Verify that the password complies with the bip39 specification    
     
-var AschJS = require('asch-js');     
-var publicKey = AschJS.crypto.getKeys(secret).publicKey;  // 根据密码生成公钥     
-var address = AschJS.crypto.getAddress(publicKey);  // 根据公钥生成地址    
-console.log(address);	// 打印地址，ALu3f2GaGrWzG4iczamDmGKr4YsbMFCdxB    
-然后将用户名、地址、加密后的密码存入到数据库或者文件中，从而完成用户和充值地址的绑定，然后将充值地址展示在前端页面上。    
-```    
+var AschJS = require('asch-js');  
+var publicKey = AschJS.crypto.getKeys(secret).publicKey;  // Generate public key based on password     
+var address = AschJS.crypto.getAddress(publicKey);  // Generate an address based on the public key    
+console.log(address);	// Print address, ALu3f2GaGrWzG4iczamDmGKr4YsbMFCdxB
     
-    
-    
+Then, the user name, address, and encrypted password are stored in a database or file, so as to complete the binding of the user and the recharge address, and then the recharge address is displayed on the front page.  
+```
     
 #### 3.1.2 用户进行充值    
 用户UserA在XCT钱包（比如http://asch.cn）往充值地址转XCT,比如转10 XCT。    
