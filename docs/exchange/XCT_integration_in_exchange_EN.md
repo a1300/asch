@@ -13,8 +13,8 @@
         - [3.1.1.1 Call the http interface to generate the address](#3111-call-the-http-interface-to-generate-the-address)
         - [3.1.1.2 Generating addresses in batch using the asch-cli command line tool](#3112-generating-addresses-in-batch-using-the-asch-cli-command-line-tool)
         - [3.1.1.3 Nodejs code generation address](#3113-nodejs-code-generation-address)
-      - [3.1.2 用户进行充值](#312-用户进行充值)
-      - [3.1.3 交易平台确认用户充值](#313-交易平台确认用户充值)
+      - [3.1.2 User recharge](#312-user-recharge)
+      - [3.1.3 Trading platform to confirm user recharge](#313-trading-platform-to-confirm-user-recharge)
       - [3.1.4 交易平台将用户充值的XCT转到一个总账户中](#314-交易平台将用户充值的xct转到一个总账户中)
         - [3.1.4.1 通过不安全的api进行XCT转账](#3141-通过不安全的api进行xct转账)
         - [3.1.4.2 通过安全的api进行XCT转账（本地签名）](#3142-通过安全的api进行xct转账本地签名)
@@ -161,29 +161,30 @@ console.log(address);	// Print address, ALu3f2GaGrWzG4iczamDmGKr4YsbMFCdxB
 Then, the user name, address, and encrypted password are stored in a database or file, so as to complete the binding of the user and the recharge address, and then the recharge address is displayed on the front page.  
 ```
     
-#### 3.1.2 用户进行充值    
-用户UserA在XCT钱包（比如http://asch.cn）往充值地址转XCT,比如转10 XCT。    
+#### 3.1.2 User recharge    
+The user UserA transfers XCT to the recharge address in the XCT wallet (eg http://asch.cn), for example, 10 XCT.    
     
-#### 3.1.3 交易平台确认用户充值    
-交易平台检测每个新的区块，可以每隔10秒检测一次，每次检查时区块高度加1，检查的高度建议持久化存储并增加一个标记位“是否已检查”，这样做的优势：能最快地检测到用户的充值信息并保证充值金额的正确（用户在极短时间内充值多次相同的金额也能保证结果准确）。    
+#### 3.1.3 Trading platform to confirm user recharge    
+The trading platform detects each new block, which can be checked every 10 seconds. The block height is incremented by 1 at each inspection. The height of the check suggests persistent storage and adding a flag “Checked”, which has the advantage of: The user can quickly detect the user's recharge information and ensure that the recharge amount is correct (the user can recharge the same amount of money in a very short period of time to ensure accurate results).    
     
-下面演示UserA的充值确认过程。    
-```    
-// 通过区块高度获去检查该区块是否有交易，每个新区块都要检查    
-// height=223994，表示最新的区块高度是223994    
+The following shows UserA's charge confirmation process.
+```bash
+# Check the block height to check whether there are transactions in the block and check each new block    
+# Height=223994, indicating the latest block height is 223994   
+
 curl -k -X GET 'http://192.168.1.100:4097/api/blocks/full?height=223994'    
-// 返回结果如下（该json结果保存到变量res中）    
-{    
-	success: true,  // 接口是否成功被调用    
+# The result is as follows (the json result is saved in the variable res)  
+{
+	success: true,  // Whether the interface was successfully called    
 	block: {    
-		id: "322e0f70f1e9de584fcf60fdcd10306691dbcdb7d738db66062c860dc29e3333", // 区块id    
+		id: "322e0f70f1e9de584fcf60fdcd10306691dbcdb7d738db66062c860dc29e3333", // Block id    
 		version: 0,    
 		timestamp: 41428170,    
-		height: 223994, // 区块高度    
+		height: 223994, // Block height    
 		previousBlock: "20594953fed0d67c87639f0c42050d56b3d1ddc06a72990b916dbd6676288310",    
 		numberOfTransactions: 1,    
 		totalAmount: 0,    
-		totalFee: 10000000, // 该区块中所有交易的手续费之和0.1XAS（xas精度是8）    
+		totalFee: 10000000, // Sum of 0.1 XAS for all transactions in this block (xas accuracy is 8)    
 		reward: 350000000,    
 		payloadLength: 177,    
 		payloadHash: "a43f6d3fb54b27c90503cb5d619e63f33cf1e2b7df72354ebbe4d6aab7175145",    
@@ -191,28 +192,28 @@ curl -k -X GET 'http://192.168.1.100:4097/api/blocks/full?height=223994'
 		generatorId: "15652667420882928094",    
 		blockSignature: "ab322a2adf7fe1eb02c746bafa365e7bc0408b5fefc2d8ae3954cfbf0d3a6e74b44ac7b178a7d663610bd30296a7c1cf95af6ee2ed3417fbf5642ccd53e6480a",    
 		totalForged: 360000000,    
-		transactions: [{    // 该区块包含的所有交易详情列表，每个元素代表一个交易    
-			id: "a43f6d3fb54b27c90503cb5d619e63f33cf1e2b7df72354ebbe4d6aab7175145", // 充值交易id    
+		transactions: [{    // List of all transaction details contained in this block, each element represents a transaction    
+			id: "a43f6d3fb54b27c90503cb5d619e63f33cf1e2b7df72354ebbe4d6aab7175145", // Recharge transaction id    
 			height: 223994,    
 			blockId: "322e0f70f1e9de584fcf60fdcd10306691dbcdb7d738db66062c860dc29e3333",    
-			type: 14, // XCT转账的类型为14    
-			timestamp: 41428161, // 充值时间戳，Asch纪元，可以转换为unix timestamp    
+			type: 14, // XCT transfer type is 14    
+			timestamp: 41428161, // Recharge time stamp, Asch era, can be converted to unix timestamp    
 			senderPublicKey: "b33b5fc45640cfc414981985bf92eef962c08c53e1a34f90dab039e985bb5fab",    
 			requesterPublicKey: "",    
-			senderId: "AMzDw5BmZ39we18y7Ty9VW79eL9k7maZPH",  // 发送者地址    
-			recipientId: "ANH2RUADqXs6HPbPEZXv4qM8DZfoj4Ry3M", // 接收者地址    
+			senderId: "AMzDw5BmZ39we18y7Ty9VW79eL9k7maZPH",  // Sender address   
+			recipientId: "ANH2RUADqXs6HPbPEZXv4qM8DZfoj4Ry3M", // Recipient address    
 			amount: 0,    
-			fee: 10000000, // 本条交易转账手续费0.1XAS（目前每笔转账都是固定的0.1XAS手续费）    
+			fee: 10000000, // This transaction transaction transfer fee 0.1XAS (current transfer is a fixed 0.1XAS fee)    
 			signature: "9e77b3868869af334d539d23feb5d4746db5c842466207f9c22f7e4dee91f4722c8738bc8bcc36abb7365d24dadb26727110ab18673b9bb86a32c29e4b96260c",    
 			signSignature: "",    
 			signatures: null,    
 			args: null,    
-			message: "deposit 10 XCT",  // 冲值时的备注信息    
+			message: "deposit 10 XCT",  // Remarks at the time of redemption    
 			asset: {    
 				uiaTransfer: {    
 					transactionId: "a43f6d3fb54b27c90503cb5d619e63f33cf1e2b7df72354ebbe4d6aab7175145", // 充值交易id    
-					currency: "CCTime.XCT",  // 资产名字，CCTime.XCT代表XCT    
-					amount: "1000000000" // 转账数额=真实数额10*XCT精度8，这里是10 XCT    
+					currency: "CCTime.XCT",  // Asset Name, CCTime.XCT stands for XCT    
+					amount: "1000000000" // Transfer amount = true amount 10*XCT precision 8, here is 10 XCT    
 				}    
 			}    
 		}]    
