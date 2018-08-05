@@ -140,5 +140,12 @@
       "cert": "./ssl/server.crt"
     }
   },
-  "gateway": {}
+  "gateway": {},
+  "chain": {
+    "params": {
+      "7aad6c7b3a530dd76efa750e3d7e72216eddf34371d2ca5a5cbc4e4ead9c2a60": [
+        "sentence weasel match weather apple onion release keen lens deal fruit matrix"
+      ]
+    }
+  }
 }
