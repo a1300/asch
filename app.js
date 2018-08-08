@@ -110,16 +110,12 @@ function main() {
     fs.writeFileSync(pidFile, process.pid, 'utf8')
   }
 
-  let logger
-  if (program.daemon) {
-    logger = tracer.dailyfile({
-      root: path.join(baseDir, 'logs'),
-      maxLogFiles: 10,
-      allLogsFileName: 'debug',
-    })
-  } else {
-    logger = tracer.colorConsole()
-  }
+  let logger = tracer.dailyfile({
+    root: path.join(baseDir, 'logs'),
+    maxLogFiles: 10,
+    allLogsFileName: 'debug'
+  })
+
   tracer.setLevel(appConfig.logLevel)
 
   const options = {
