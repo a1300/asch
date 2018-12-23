@@ -8,7 +8,7 @@
   },
   "author": "Qingfeng Shan <sqf1225@foxmail.com>",
   "dependencies": {
-    "asch-core": "https://github.com/AschPlatform/asch-core/tarball/v1.4.6",
+    "asch-core": "https://github.com/a1300/asch-core.git#3e6ce1b8ff6ccd92aecb830ac3f582ed6f3e22e6",
     "bitcoincashjs": "=0.1.14",
     "commander": "=2.6.0",
     "daemon": "=1.1.0",
